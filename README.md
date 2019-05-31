@@ -47,34 +47,76 @@ http://discourse.ioquake.org
 
 # Compilation and installation
 
-For *nix
-  1. Change to the directory containing this readme.
-  2. Run 'make'.
+## Building on Ubuntu or Debian Linux ##
 
-For Windows,
-  1. Please refer to the excellent instructions here:
-     http://wiki.ioquake3.org/Building_ioquake3
+```sh
+$ sudo apt-get install libcurl4-openssl-dev libsdl2-dev libopenal-dev libvulkan-dev libgl1-mesa-dev
+$ sudo apt-get install clang gcc make git
+$ git clone https://github.com/suijingfeng/vkQuake3.git
+$ cd vkQuake3
+$ make -j4
+```
 
-For Mac OS X, building a Universal Binary
-  1. Install MacOSX SDK packages from XCode.  For maximum compatibility,
-     install MacOSX10.4u.sdk and MacOSX10.3.9.sdk, and MacOSX10.2.8.sdk.
-  2. Change to the directory containing this README file.
-  3. Run './make-macosx-ub.sh'
-  4. Copy the resulting ioquake3.app in /build/release-darwin-ub to your
-     /Applications/ioquake3 folder.
+## Building on Windows 7 or 10 ##
 
-Installation, for *nix
-  1. Set the COPYDIR variable in the shell to be where you installed Quake 3
-     to. By default it will be /usr/local/games/quake3 if you haven't set it.
-     This is the path as used by the original Linux Q3 installer and subsequent
-     point releases.
-  2. Run 'make copyfiles'.
+To build 64-bit binaries, follow these instructions:
 
-It is also possible to cross compile for Windows under *nix using MinGW. Your
-distribution may have mingw32 packages available. On debian/Ubuntu, you need to
-install 'mingw-w64'. Thereafter cross compiling is simply a case running
-'PLATFORM=mingw32 ARCH=x86 make' in place of 'make'. ARCH may also be set to
-x86_64.
+1. Install msys2 from https://msys2.github.io/ , following the instructions there.
+2. Start "MinGW 64-bit" from the Start Menu, NOTE: NOT MSYS2.
+3. Install mingw-w64-x86\_64, make, git and necessary libs.
+```sh
+pacman -S mingw-w64-x86_64-gcc make git
+```
+4. Grab latest source code from github and compile. Note that in msys2, your drives are linked as folders in the root directory: C:\ is /c/, D:\ is /d/, and so on.
+
+```sh
+git clone https://github.com/suijingfeng/vkQuake3.git
+cd vkQuake3
+make -j4
+```
+5. Find the executables and dlls in build/release-mingw64-x86\_64 . 
+
+you can also download the binary compiled on win10 from https://github.com/suijingfeng/vkQuake3/releases.
+
+You can also try the openarena game https://github.com/suijingfeng/vkOpenArena 
+which is essier to find human players play with, its railgun is more aggresive. :)
+
+
+Q: How to enable vulkan support from the pulldown console ?
+
+```
+\cl_renerer vulkan
+\vid_restart
+```
+
+Q: How to check that Vulkan backend is really active ? 
+```sh
+\vkinfo
+```
+Type \vkinfo in the console reports information about active rendering backend.
+It will report something like the following:
+
+```
+Active 3D API: Vulkan
+Vk api version: 1.0.65
+Vk driver version: 1637679104
+Vk vendor id: 0x10DE (NVIDIA)
+Vk device id: 0x1B80
+Vk device type: DISCRETE_GPU
+Vk device name: GeForce GTX 1080
+
+Total Device Extension Supported:
+
+...
+
+Vk instance extensions:
+
+...
+
+Image chuck memory(device local) used: 8 M 
+
+```
+
 
 The following variables may be set, either on the command line or in
 Makefile.local:
